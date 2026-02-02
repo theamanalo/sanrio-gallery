@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanrio Characters Gallery</title>
+
+<style>
+/* RESET */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: url("sanrio/image.png") no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); 
+  gap: 60px;
+  padding: 50px;
+  justify-items: center;
+}
+
+/* CARD */
+.card {
+  width: 200px;
+  height: 200px;
+  cursor: pointer;
+  perspective: 1400px;
+  -webkit-perspective: 1400px; /* iOS support */
+}
+
+/* ACTIVE CARD */
+.card.active {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-60%, -50%);
+  z-index: 10;
+}
+
+/* CARD INNER */
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d; /* iOS support */
+}
+
+/* HOVER (ONLY WHEN NOT ACTIVE) */
+@media (hover: hover) {
+  .card:not(.active):hover .card-inner {
+    transform: scale(1.08);
+  }
+}
+
+/* 🎬 MAIN ANIMATION */
+.card.active .card-inner {
+  animation: expandSpin 0.9s ease forwards;
+  -webkit-animation: expandSpin 0.9s ease forwards; /* iOS support */
+}
+
+/* SPIN → EXPAND → SLIDE LEFT */
+@keyframes expandSpin {
+  0% {
+    transform: rotate(0turn) scale(1) translateX(0);
+  }
+  50% {
+    transform: rotate(0.5turn) scale(2);
+  }
+  100% {
+    transform: rotate(1turn) scale(2) translateX(-130px);
+  }
+}
+
+/* POSTER IMAGE */
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden; /* iOS support */
+  box-shadow: 0 14px 40px rgba(0,0,0,0.3);
+}
+
+/* INFO PANEL (NO BACKGROUND) */
+.info {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 400px;
+    height: 100px;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #333;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.3s, transform 0.3s;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* SHOW INFO */
+.card.active .info {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* INFO TEXT */
+.info h2 {
+  color: #ff69b4;
+  margin-bottom: 10px;
+}
+
+.info p {
+  font-size: 10px;
+  margin-bottom: 6px;
+  white-space: pre-line; /* Essential for your original text formatting */
+  overflow: visible;
+}
+
+/* BACKDROP (BLUR BACKGROUND) */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); /* iOS support */
+  background: rgba(255,255,255,0.15);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  z-index: 5;
+}
+
+.backdrop.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 📱 MOBILE RESPONSIVE BRIDGE - prevents off-screen text on iPhone */
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+  .card.active .card-inner {
+    animation: expandSpinMobile 0.9s ease forwards;
+  }
+  @keyframes expandSpinMobile {
+    0% { transform: rotate(0turn) scale(1); }
+    100% { transform: rotate(1turn) scale(1.3) translateY(-80px); }
+  }
+  .info {
+    left: 50% !important;
+    top: 105% !important;
+    transform: translateX(-50%) !important;
+    width: 85vw;
+    text-align: center;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="backdrop" onclick="closeCard()"></div>
+
+<div class="grid">
+
+  <div class="card" onclick="openCard(this)">
+    <div class="card-inner">
+      <img src="sanrio/sS0YO6WhfHG_large.jpg" alt="Hello Kitty">
+      <div class="info">
+        <h2 data-text="Hello Kitty"></h2>
+        <p data-text="Birthday: November 1, 1974"></p>
+        <p data-text="Zodiac sign: Scorpio"></p>
+        <p data-text="Hello Kitty, whose real name is Kitty White, is a cheerful british schoolgirl
+           with a red bow on her head. Known for her friendly nature and love for baking cookies. 
+           A global icon representing Japanese kawaii culture, appearing on countless products and 
+           starring in animated series. Lives in London with her family and has a twin sister named Mimmy."></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" onclick="openCard(this)">
+    <div class="card-inner">
+      <img src="sanrio/5ed24e965e62abe7e2f9269bd21c1a1f.jpg" alt="My Melody">
+      <div class="info">
+        <h2 data-text="My Melody"></h2>
+        <p data-text="Birthday: January 18, 1975"></p>
+        <p data-text="Zodiac sign: Capricorn "></p>
+        <p data-text="My Melody is a sweet kind white rabbit. Known for her iconic pink hood favorite almond
+         pound cake, and home in the magical forest of Mariland. She's a beloved character, often 
+         seen baking cookies and cakes, loves to spend time with her family, and is best friends 
+         with a lamb named My Sweet Piano while having a friendly rivalry with Kuromi."></p>
+      </div>
+    </div>
+  </div>
+    
+  <div class="card" onclick="openCard(this)">
+    <div class="card-inner">
+        <img src="sanrio/26adef8a-5d82-40c2-b39b-f10800314c10.jpg" alt="Kuromi">
+        <div class="info">
+            <h2 data-text="Kuromi"></h2>
+            <p data-text="Birthday: October 31, 2005"></p>
+            <p data-text="Zodiac sign: Scorpio"></p>
+            <p data-text="Kuromi is a mischievous and tomboyish character known for her punk rock style and 
+             playful antics. She wears a black jester's hat with a pink skull on the front and has a 
+             spunky personality. Despite her tough exterior, Kuromi has a soft spot for her friends and 
+             enjoying writing in her diary and playing pranks. She is often seen as the rival of My Melody, 
+             but deep down, she values friendship and fun."></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" onclick="openCard(this)">
+      <div class="card-inner">
+          <img src="sanrio/st,small,507x507-pad,600x600,f8f8f8.u2.jpg" alt="Badtz-Maru">
+          <div class="info">
+              <h2 data-text="Badtz-Maru"></h2>
+              <p data-text="Birthday: April 1, 1993"></p>
+              <p data-text="Zodiac sign: Aries"></p>
+              <p data-text="Badtz-Maru is a mischievous little penguin with a spiky hairstyle and a cheeky 
+               attitude. Known for his rebellious nature and love for pranks, Badtz-Maru often finds 
+               himself in humorous situations. Despite his tough exterior, he has a soft spot for his 
+               friends and enjoys spending time at the arcade and skateboarding. A popular character 
+               in the Sanrio universe, Badtz-Maru embodies a playful and adventurous spirit."></p>
+          </div> 
+      </div>
+  </div>
+
+  <div class="card" onclick="openCard(this)">
+      <div class="card-inner">
+          <img src="sanrio/FNLmoGdXEAgwqAZ.jpg" alt="Cinnamoroll">
+          <div class="info">
+              <h2 data-text="Cinnamoroll"></h2>
+              <p data-text="Birthday: March 6, 2001"></p>
+              <p data-text="Zodiac sign: Pisces"></p>
+              <p data-text="Cinnamoroll is an adorable white puppy with long ears that allow him to fly. 
+               Known for his fluffy tail that resembles a cinnamon roll, Cinnamoroll is a sweet and 
+               gentle character who loves to nap and eat delicious pastries. He lives in Café 
+               Cinnamon, where he serves coffee and treats to his friends. Cinnamoroll's charming 
+               personality and cute appearance have made him a beloved figure in the Sanrio family."></p>
+          </div> 
+      </div>
+  </div>
+  
+  <div class="card" onclick="openCard(this)">
+      <div class="card-inner">
+          <img src="sanrio/images.png" alt="Tuxedo Sam">
+          <div class="info">
+              <h2 data-text="Tuxedo Sam"></h2>
+              <p data-text="Birthday: May 12, 1979"></p>
+              <p data-text="Zodiac sign: Taurus"></p>
+              <p data-text="Tuxedo Sam is a charming and dapper penguin known for his love of fashion and 
+               his collection of bow ties. With his signature blue tuxedo and sailor hat, Tuxedosam 
+               exudes a sophisticated yet playful vibe. He enjoys socializing with friends, trying 
+               out new recipes, and exploring the world around him. Tuxedosam's friendly nature and 
+               stylish appearance have made him a favorite among Sanrio fans."></p>
+          </div> 
+      </div>
+  </div>
+  
+  <div class="card" onclick="openCard(this)">
+      <div class="card-inner">
+          <img src="sanrio/0f761bf5fb4d6f3359022c7f89407e5d.jpg" alt="Little Twin Stars">
+          <div class="info">
+              <h2 data-text="Little Twin Stars"></h2>
+              <p data-text="Birthday: December 24, 1975"></p>
+              <p data-text="Zodiac sign: Capricorn"></p>
+              <p data-text="The Little Twin Stars, Kiki and Lala, are celestial siblings known for their 
+               dreamy and whimsical nature. Kiki, the younger brother, has blue hair and is curious 
+               and adventurous, while Lala, the older sister with pink hair, is gentle and nurturing. 
+               They live in the clouds and love to explore the universe, spreading magic and joy 
+               wherever they go. Their enchanting personalities and celestial charm have made them 
+               beloved characters in the Sanrio family."></p>
+          </div> 
+      </div>
+  </div> 
+
+  <div class="card" onclick="openCard(this)">
+    <div class="card-inner">
+      <img src="sanrio/purin.gif" alt="Purin">
+      <div class="info">
+        <h2 data-text="Purin"></h2>
+        <p data-text="Birthday: April 16, 1996"></p>
+        <p data-text="Zodiac sign: Aries"></p>
+        <p data-text="Purin, also known as Pompompurin, is a lovable golden retriever dog known for 
+         his signature brown beret and laid-back personality. He enjoys napping, eating pudding, 
+         and spending time with his friends. Purin is friendly and easygoing, making him a 
+         popular character among Sanrio fans. His charming demeanor and love for comfort have 
+         made him a beloved figure in the Sanrio family."></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" onclick="openCard(this)">
+    <div class="card-inner">
+      <img src="sanrio/84f1e846523b378cbc70e6afcaf807d0.jpg" alt="Pururun Kyupi">
+      <div class="info">
+        <h2 data-text="Pururun Kyupi"></h2>
+        <p data-text="Birthday:2002"></p>
+        <p data-text="Zodiac sign: Unknown"></p>
+        <p data-text="Pururun Kyupi lives in beautiful Pururun Lake, the clearest lake in the whole world. 
+         He's a water fairy, born in the shimmering bubbles that rise from the crystal depths. Only those with 
+         a kind heart are able to see him. It's easy to tell when Pururun Kyupi is happy, his antennae blink! 
+         His favorite hobby is fortune telling"></p>
+      </div>
+    </div>  
+  </div>
+
+  <div class="card" onclick="openCard(this)">
+    <div class="card-inner">
+      <img src="sanrio/sanrio_characters_pochacco_3.webp" alt="Pochacco">
+      <div class="info">
+        <h2 data-text="Pochacco"></h2>
+        <p data-text="Birthday: February 29, 1989"></p>
+        <p data-text="Zodiac sign: Pisces"></p>
+        <p data-text="Pochacco is an energetic and sporty white dog with black floppy ears. Known for 
+         his love of sports and outdoor activities, Pochacco is always up for a game of soccer 
+         or a bike ride. He has a cheerful and friendly personality, making him popular among 
+         his friends. Pochacco's adventurous spirit and playful nature have made him a beloved 
+         character in the Sanrio family."></p>
+    </div>
+  </div>
+  </div>
+
+  <div class="card" onclick="openCard(this)">
+    <div class="card-inner">
+      <img src="sanrio/images (1).png" alt="Kerropi">
+      <div class="info">
+        <h2 data-text="Keroppi"></h2>
+        <p data-text="Birthday: July 10, 1987"></p>
+        <p data-text="Zodiac sign: Cancer"></p>
+        <p data-text="Keroppi is a lively and cheerful frog known for his big eyes and wide smile. 
+         He lives in Donut Pond with his family and friends, often embarking on fun adventures 
+         and outdoor activities. Keroppi is friendly, optimistic, and loves to explore nature. 
+         His energetic personality and love for fun have made him a favorite character in the 
+         Sanrio universe."></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" onclick="openCard(this)">
+      <div class="card-inner">
+          <img src="sanrio/Chococat.webp" alt="Chococat">
+          <div class="info">
+              <h2 data-text="Chococat"></h2>
+              <p data-text="Birthday: May 10, 1996"></p>
+              <p data-text="Zodiac sign: Cancer"></p>
+              <p data-text="Chococat is a curious and intelligent black cat known for his large, expressive 
+               eyes and signature chocolate-colored nose. He is tech-savvy and loves to explore new 
+               gadgets and inventions. Chococat is friendly and sociable, often seen hanging out with 
+               his friends and sharing his knowledge. His inquisitive nature and love for learning 
+               make him a standout character in the Sanrio universe."></p>
+          </div> 
+      </div>
+  </div>
+
+  <div class="card" onclick="openCard(this)">
+    <div class="card-inner">
+      <img src="sanrio/images (2).png" alt="Pekkle">
+      <div class="info">
+        <h2 data-text="Pekkle"></h2>
+        <p data-text="Birthday: July 27, 1989"></p>
+        <p data-text="Zodiac sign: Leo"></p>
+        <p data-text="Pekkle is a charming and friendly white duck known for his sailor outfit and 
+         adventurous spirit. He loves to swim, play sports, and explore new places. Pekkle is 
+         sociable and enjoys spending time with his friends, often embarking on fun adventures 
+         together. His cheerful personality and love for excitement have made him a beloved 
+         character in the Sanrio universe."></p>
+      </div>
+    </div>
+  </div>    
+  
+</div>
+
+<script>
+function typeText(element, speed = 20) {
+  const text = element.getAttribute('data-text');
+  if(!text) return;
+  element.textContent = "";
+  let i = 0;
+  const interval = setInterval(() => {
+    element.textContent += text.charAt(i);
+    i++;
+    if (i >= text.length) clearInterval(interval);
+  }, speed);
+}
+
+function openCard(card) {
+  document.querySelectorAll('.card').forEach(c => {
+    c.classList.remove('active');
+    c.querySelectorAll('[data-text]').forEach(el => el.textContent = "");
+  });
+
+  card.classList.add('active');
+  document.querySelector('.backdrop').classList.add('show');
+
+  const textElements = card.querySelectorAll('[data-text]');
+  let delay = 600;
+
+  textElements.forEach(el => {
+    setTimeout(() => typeText(el, 18), delay);
+    delay += 250;
+  });
+}
+
+function closeCard() {
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+  document.querySelector('.backdrop').classList.remove('show');
+}
+</script>
+
+</body>
+</html>
