@@ -6,7 +6,7 @@
 <title>Sanrio Characters Gallery</title>
 
 <style>
-/* RESET */
+  
 * {
   box-sizing: border-box;
   margin: 0;
@@ -22,7 +22,6 @@ body {
   align-items: center;
 }
 
-/* GRID */
 .grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr); 
@@ -31,16 +30,14 @@ body {
   justify-items: center;
 }
 
-/* CARD */
 .card {
   width: 200px;
   height: 200px;
   cursor: pointer;
   perspective: 1400px;
-  -webkit-perspective: 1400px; /* iOS support */
+  -webkit-perspective: 1400px; 
 }
 
-/* ACTIVE CARD */
 .card.active {
   position: fixed;
   top: 50%;
@@ -49,29 +46,25 @@ body {
   z-index: 10;
 }
 
-/* CARD INNER */
 .card-inner {
   width: 100%;
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  -webkit-transform-style: preserve-3d; /* iOS support */
+  -webkit-transform-style: preserve-3d; 
 }
 
-/* HOVER (ONLY WHEN NOT ACTIVE) */
 @media (hover: hover) {
   .card:not(.active):hover .card-inner {
     transform: scale(1.08);
   }
 }
 
-/* 🎬 MAIN ANIMATION */
 .card.active .card-inner {
   animation: expandSpin 0.9s ease forwards;
-  -webkit-animation: expandSpin 0.9s ease forwards; /* iOS support */
+  -webkit-animation: expandSpin 0.9s ease forwards; 
 }
 
-/* SPIN → EXPAND → SLIDE LEFT */
 @keyframes expandSpin {
   0% {
     transform: rotate(0turn) scale(1) translateX(0);
@@ -84,18 +77,16 @@ body {
   }
 }
 
-/* POSTER IMAGE */
 .card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 20px;
   backface-visibility: hidden;
-  -webkit-backface-visibility: hidden; /* iOS support */
+  -webkit-backface-visibility: hidden; 
   box-shadow: 0 14px 40px rgba(0,0,0,0.3);
 }
 
-/* INFO PANEL (NO BACKGROUND) */
 .info {
     position: absolute;
     top: 0;
@@ -112,13 +103,11 @@ body {
     box-shadow: none;
 }
 
-/* SHOW INFO */
 .card.active .info {
   opacity: 1;
   transform: translateX(0);
 }
 
-/* INFO TEXT */
 .info h2 {
   color: #ff69b4;
   margin-bottom: 10px;
@@ -127,16 +116,15 @@ body {
 .info p {
   font-size: 10px;
   margin-bottom: 6px;
-  white-space: pre-line; /* Essential for your original text formatting */
+  white-space: pre-line; 
   overflow: visible;
 }
 
-/* BACKDROP (BLUR BACKGROUND) */
 .backdrop {
   position: fixed;
   inset: 0;
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px); /* iOS support */
+  -webkit-backdrop-filter: blur(8px); 
   background: rgba(255,255,255,0.15);
   opacity: 0;
   pointer-events: none;
@@ -149,7 +137,6 @@ body {
   pointer-events: auto;
 }
 
-/* 📱 MOBILE RESPONSIVE BRIDGE - prevents off-screen text on iPhone */
 @media (max-width: 1100px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
@@ -423,6 +410,9 @@ function closeCard() {
   document.querySelector('.backdrop').classList.remove('show');
 }
 </script>
-
+  <footer class="footer">
+        <p>&copy; 2026 Sanrio Characters Gallery. All rights reserved.</p>
+        <p>Created by KINO🍄</p>
 </body>
 </html>
+
